@@ -1,0 +1,92 @@
+{% extends 'main.html' %}
+
+{% block content %}
+  <div class="container mt-5">
+    <div class="row justify-content-center">
+      <div class="col-md-8">
+        <h2 class="text-center mb-4">Create Lesson for one of the existing Modules</h2>
+
+        <form method="post" enctype="multipart/form-data">
+          {% csrf_token %}
+          <h5><i>Put descriptive information about the Lesson</i></h5>
+          <div class="form-group row">
+            <label class="col-md-3 col-form-label">Lesson {{ lesson_form.title.label_tag }}</label>
+            <div class="col-md-9">
+              {{ lesson_form.title }}
+            </div>
+          </div>
+
+          <div class="form-group row">
+            <label class="col-md-3 col-form-label">{{ lesson_form.content.label_tag }}</label>
+            <div class="col-md-9">
+              {{ lesson_form.content }}
+            </div>
+          </div>
+
+          <div class="form-group row">
+            <label class="col-md-3 col-form-label">{{ lesson_form.project.label_tag }}</label>
+            <div class="col-md-9">
+              {{ lesson_form.project }}
+            </div>
+          </div>
+
+          <div class="form-group row">
+            <label class="col-md-3 col-form-label">{{ lesson_form.number.label_tag }}</label>
+            <div class="col-md-9">
+              {{ lesson_form.number }}
+            </div>
+          </div>
+
+          {{ section_formset.management_form }}
+
+          <h5><i>Input information about the the Section of a Lesson</i></h5>
+          
+          {% for form in section_formset %}
+            <div class="form-group row">
+              <label class="col-md-3 col-form-label">Section {{ form.title.label_tag }}</label>
+              <div class="col-md-9">
+                {{ form.title }}
+              </div>
+            </div>
+
+            <div class="form-group row">
+              <label class="col-md-3 col-form-label">{{ form.content.label_tag }}</label>
+              <div class="col-md-9">
+                {{ form.content }}
+              </div>
+            </div>
+
+            <div class="form-group row">
+              <label class="col-md-3 col-form-label">{{ form.ordered_list.label_tag }}</label>
+              <div class="col-md-9">
+                {{ form.ordered_list }}
+              </div>
+            </div>
+
+            <div class="form-group row">
+              <label class="col-md-3 col-form-label">{{ form.term_definition.label_tag }}</label>
+              <div class="col-md-9">
+                {{ form.term_definition }}
+              </div>
+            </div>
+
+            <div class="form-group row">
+              <label class="col-md-3 col-form-label">{{ form.image.label_tag }}</label>
+              <div class="col-md-9">
+                {{ form.image }}
+              </div>
+            </div>
+          {% endfor %}
+
+          <div class="form-group row">
+            <div class="col-md-12">
+              <input type="submit" class="btn btn-primary btn-block mt-3" value="Create Lesson">
+            </div>
+          </div>
+        </form>
+      </div>
+    </div>
+  </div>
+{% endblock %}
+
+

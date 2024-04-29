@@ -1,0 +1,158 @@
+{% extends 'main.html' %}
+
+{% load static %}
+
+{% block content %}
+<style>
+  
+  ::-webkit-scrollbar {
+      width: 0.7vw;
+  }
+
+  ::-webkit-scrollbar-thumb {
+      background-color: #0d6efd;
+      border-radius: 3px;
+  }
+
+  ::-webkit-scrollbar-thumb:hover {
+      background-color: #0d56c3;
+  }
+</style>
+
+  <div class="container mt-4">
+    <div class="row">
+      <div class="col-lg-6 mb-4">
+        <img class="img-fluid" src="{{ project.featured_image.url }}" alt="{{ project.title }}">
+      </div>
+      <div class="col-lg-6">
+        <h1>{{ project.title }}</h1>
+        <hr>
+        <p>{{ project.description }}</p>
+        <!-- Add Start Lesson button here -->
+            <button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#lessonModal{{ lessons.0.number }}">Start with <i>{{ lessons.0.title }}</i></button>
+        <!-- Add Take Quiz button here -->
+        {% if quiz.0 %}
+          {% if profile.current_module == project.title or user.username == "CryptoAdmin"%}
+            <a href="{% url 'quizes:quiz-view' quiz.0.id %}" class="btn btn-danger" id="quizButton">Take <i>{{quiz.0.name}}</i></a>
+          {% else %}
+            <a href="{% url 'quizes:quiz-view' quiz.0.id %}" class="btn btn-danger disabled" id="quizButton">Take <i>{{quiz.0.name}}</i></a>
+          {% endif %}
+        {% endif %}
+      </div>
+    </div>
+
+    <!-- Lesson Modal for the selected lesson -->
+    {% for lesson in lessons %}
+    
+    <div class="modal fade" id="lessonModal{{ lesson.number }}" tabindex="-1" aria-labelledby="lessonModalLabel{{ lesson.id }}" aria-hidden="true">
+      <div class="modal-dialog modal-dialog-centered modal-dialog-scrollable modal-lg">
+          <div class="modal-content">
+              <div class="modal-header">
+                  <h5 class="modal-title" id="lessonModalLabel{{ lesson.number }}">{{ lesson.title }}</h5>
+                  <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+              </div>
+              <div class="modal-body" style="overflow: scroll">
+                  {% if lesson.content %}
+                    {{lesson.content}}
+                  {% endif %}
+                  {% for section in lesson.sections.all %}
+                      <h5>{{ section.title }}</h5>
+                      <p>{{ section.content }}</p>
+                      <img src="{{ section.image.url }}" alt="Lesson Image" style="width: 100%">
+                      {% if section.ordered_list %}
+                        <ol>
+                            {% for item in section.get_ordered_list_as_list %}
+                                <li>{{ item }}</li>
+                            {% endfor %}
+                        </ol>
+                      {% endif %}
+                      {% if section.term_definition %}
+                        <div style="border: 1px solid #ccc; padding: 10px; margin: 10px 0;">
+                          {{ section.term_definition }}
+                        </div>
+                      {% endif %}
+                  {% endfor %}
+              </div>
+              <div class="modal-footer">
+                {% if forloop.first %}
+                      <!-- First lesson, show Next button -->
+                      <button type="button" class="btn btn-primary" data-bs-target="#lessonModal{{ lesson.number|add:1 }}" data-bs-toggle="modal" data-bs-dismiss="modal">Next</button>
+                  {% elif forloop.last %}
+                      <!-- Last lesson, show Previous button -->
+                      <button type="button" class="btn btn-secondary" data-bs-target="#lessonModal{{ lessons.first.id }}" data-bs-toggle="modal" data-bs-dismiss="modal">Previous</button>
+                      <button type="button" class="btn btn-danger" data-bs-dismiss="modal" onclick="markLessonAsCompleted()">Close</button>
+                  {% else %}
+                      <!-- In between lessons, show both Next and Previous buttons -->
+                      <button type="button" class="btn btn-secondary" data-bs-target="#lessonModal{{ lesson.number|add:-1}}" data-bs-toggle="modal" data-bs-dismiss="modal">Previous</button>
+                      <button type="button" class="btn btn-primary" data-bs-target="#lessonModal{{ lesson.number|add:1 }}" data-bs-toggle="modal" data-bs-dismiss="modal">Next</button>
+                  {% endif %}
+              </div>
+          </div>
+      </div>
+  </div>
+  {% endfor %}
+  </div>
+  <script>
+    // Variable indicating whether the user has completed the lesson
+    var userCompletedLesson = false;
+    // Function to enable the quiz button if the user has completed the lesson
+    function enableQuizButton() {
+      if (userCompletedLesson) {
+        document.getElementById('quizButton').disabled = false;
+      }
+    }
+  
+    // Call enableQuizButton function when the "Close" button is pressed
+    $('#lessonModal{{ lessons.last.id }} .btn-danger').on('click', function () {
+      // Assuming you have a variable indicating the current lesson title
+      
+      console.log("Project title sending to the backend: ", project.title)
+      enableQuizButton();
+      markLessonAsCompleted(moduleTitle);
+    });
+
+    // Get the CSRF token from the cookie
+    var csrftoken = getCookie('csrftoken');
+ 
+
+    // You should set userCompletedLesson to true when the user completes the lesson
+    function markLessonAsCompleted() {
+      userCompletedLesson = true;
+      var moduleTitle = '{{ project.title }}';
+      document.getElementById('quizButton').classList.remove('disabled');
+      // Update the current_module field in the user's profile
+      $.ajax({
+        type: 'POST',
+        url:  "http://127.0.0.1:8000/lessons/update_current_module/",  // Replace with the actual URL for updating the current module
+        data: { module_title: moduleTitle },
+        headers: {'X-CSRFToken': csrftoken},
+        success: function (data) {
+          console.log('Current module updated successfully');
+        },
+        error: function (error) {
+          console.error('Error updating current module:', error);
+        }
+      });
+
+      // Function to get the CSRF token from the cookie
+      function getCookie(name) {
+        var cookieValue = null;
+        if (document.cookie && document.cookie !== '') {
+          var cookies = document.cookie.split(';');
+          for (var i = 0; i < cookies.length; i++) {
+            var cookie = jQuery.trim(cookies[i]);
+            if (cookie.substring(0, name.length + 1) === (name + '=')) {
+              cookieValue = decodeURIComponent(cookie.substring(name.length + 1));
+              break;
+            }
+          }
+        }
+        return cookieValue;
+      }
+    }
+  </script>
+  
+  <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/js/bootstrap.bundle.min.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.0-beta1/dist/js/bootstrap.bundle.min.js" integrity="sha384-ygbV9kiqUc6oa4msXn9868pTtWMgiQaeYH7/t7LECLbyPA2x65Kgf80OJFdroafW" crossorigin="anonymous"></script>
+
+{% endblock content %}
