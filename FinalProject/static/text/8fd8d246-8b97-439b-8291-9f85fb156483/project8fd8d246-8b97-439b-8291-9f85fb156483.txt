@@ -1,0 +1,23 @@
+1) What is Bitcoin?
+
+Bitcoin, introduced in 2009 by an unknown person or group using the pseudonym Satoshi Nakamoto, is a decentralized digital currency. Unlike traditional currencies issued by governments and central banks, Bitcoin operates on a peer-to-peer network, allowing for direct transactions between users without the need for intermediaries.
+
+We'll explore the key features of Bitcoin, such as its decentralized nature, finite supply, and the use of cryptographic techniques to secure transactions.
+
+2) What is Blockchain?
+
+At the core of Bitcoin's innovation is Blockchain, a distributed ledger that records all transactions across a network of computers. Each transaction is grouped into a block and linked to the previous one, forming a chain of blocks — hence the name Blockchain.
+
+We'll uncover how Blockchain ensures transparency, security, and immutability in transactions. Its decentralized nature makes it resistant to tampering and fraud, offering a revolutionary way to record and verify data.
+
+3) Advantages of Bitcoin
+
+Bitcoin comes with several advantages, including borderless transactions, low transaction fees, and financial privacy. We'll discuss how Bitcoin has the potential to reshape traditional financial systems by providing financial inclusion to the unbanked and facilitating cross-border transactions seamlessly.
+
+4) Concepts of Bitcoin Mining
+
+Bitcoin transactions are verified and added to the Blockchain through a process known as mining. Miners use powerful computers to solve complex mathematical problems, and in return, they are rewarded with newly created bitcoins. This process ensures the security and integrity of the Bitcoin network.
+
+We'll explore the intricacies of Bitcoin mining, the role of miners, and its significance in maintaining the decentralized nature of the cryptocurrency.
+
+By the end of this lesson, you'll have a solid understanding of what Bitcoin is, how Blockchain works, the advantages of using Bitcoin, and the fascinating world of Bitcoin mining. Get ready to embark on an exciting journey into the realm of digital currencies and decentralized technologies!
