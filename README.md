@@ -14,3 +14,4 @@ The web application tailored for novice users to learn the foundations of crypto
 - Run the local development server and visit the app on your browser http://localhost:8000
 
 	(FinalProject)$ python manage.py runserver
+
