@@ -4,7 +4,7 @@ The web application tailored for novice users to learn the foundations of crypto
 ## Running the project
 - Create a conda environment for this project:
   
-	$ conda create --name FinalProject python 3.10
+	$ conda create --name FinalProject python 3.10 </br>
 	$ conda activate FinalProject
 
 - Install Python dependencies. Make sure you do this inside the project folder, where the requirements.txt file lives:
