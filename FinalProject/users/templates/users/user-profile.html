@@ -1,0 +1,92 @@
+{% extends 'main.html' %}
+
+{% block content %}
+
+<style>
+    .profile-picture {
+        width: 5%; /* Adjust the percentage as needed */
+        height: auto; /* This maintains the aspect ratio */
+        max-width: 30px; /* Set a maximum width if needed */
+        max-height: 30px; /* Set a maximum height if needed */
+        overflow: hidden;
+        border-radius: 50%; /* This makes the image circular */
+    }
+
+    .profile-img {
+        width: 100%;
+        height: 100%;
+        object-fit: cover;
+    }
+</style>
+    <div class="container mt-4">
+        <div class="row">
+            <div class="col-md-6">
+                <div class="card mb-4">
+                    <div class="card-body">
+                        <h2 class="card-title">{{ profile.name }}</h2>
+                        <div class="user-details">
+                            <img src="{{ profile.profile_image.url }}" class="rounded-circle profile-img" alt="{{ user.profile.name }}">
+                            <p class="card-text"><strong>Email:</strong> {{ profile.email }}</p>
+                            <p class="card-text"><strong>Username:</strong> {{ profile.username }}</p>
+                            <!-- <form id="profilePictureForm">
+                                <input type="file" name="profilePicture" id="profilePictureInput">
+                                <button type="submit">Upload Profile Picture</button>
+                            </form> -->
+                            {% if request.user.id == profile.user.id %}
+                                <a href="{% url 'update_user' %}" class="btn btn-secondary">Update Profile</a>
+                            {% endif %}
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="col-md-6">
+                <div class="card">
+                    <div class="card-body">
+                        <h3 class="card-title">Progress Information</h3>
+                        <p class="card-text"><strong>Current Points:</strong> {{profile.points_of_progress}} XP</p>
+                        <h4 class="mt-4">Topics Recommended for Revision:</h4>
+                        <ul>
+                            {% for lesson in lessons_for_revision %}
+                                <li><i>{{ lesson.title }}</i></li>
+                                <!-- Display other relevant information about the lesson -->
+                            {% endfor %}
+                        </ul>
+                        <p class="mt-4"><strong>Completed Module:</strong> <i>{{profile.current_module}}</i></p>
+                        <p><strong>Completed Quiz:</strong> <i>{{profile.current_quiz}}</i></p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <!-- <script>
+        document.getElementById('profilePictureForm').addEventListener('submit', function(event) {
+            event.preventDefault();
+
+            const formData = new FormData();
+            const fileInput = document.getElementById('profilePictureInput');
+            formData.append('profilePicture', fileInput.files[0]);
+
+            fetch('/profile/update-profile-picture/', {
+                method: 'POST',
+                body: formData
+            })
+            .then(response => {
+                if (response.ok) {
+                    return response.json();
+                }
+                throw new Error('Failed to update profile picture');
+            })
+            .then(data => {
+                // Assuming the response includes the updated profile picture URL
+                const profileImage = document.querySelector('.card-img-top');
+                profileImage.src = data.profile_image_url; // Update the src attribute with the new image URL
+                alert('Profile picture updated successfully');
+            })
+            .catch(error => {
+                console.error(error);
+                alert('Failed to update profile picture');
+            });
+        });
+    </script> -->
+{% endblock content %}
+

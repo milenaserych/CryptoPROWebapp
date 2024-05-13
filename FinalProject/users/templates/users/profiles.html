@@ -1,0 +1,19 @@
+{% extends 'main.html' %}
+
+{% block content %}
+
+    <div class="row row-cols-1 row-cols-md-2 row-cols-lg-3 ml-4 mr-4">
+        {% for profile in profiles %}
+        <div class="col mb-4">
+            <a href="{% url 'admin-user-profile' profile.id %}" class="card" style="text-decoration: none; color: black">
+                <img src="{{ profile.profile_image.url }}" class="card-img-top" alt="{{ user.name }}" style="height: 300px; object-fit: cover;">
+                <div class="card-body">
+                    <h5 class="card-title">{{ profile.name }}</h5>
+                    <p class="card-text">Email: {{ profile.email }}</p>
+                </div>
+            </a>
+        </div>
+        {% endfor %}
+    </div>
+
+{% endblock content %}

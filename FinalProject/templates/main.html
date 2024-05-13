@@ -1,0 +1,57 @@
+{% load django_bootstrap5 %}
+<!DOCTYPE html>
+{% load static %}
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+   
+    <title>FinalProject</title>
+    <link rel="stylesheet" type="text/css" media="screen" href='{% static "styles/main.css" %}'>
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css">
+    <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.0.13/css/all.css">
+    
+    <!-- CSS only -->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-giJF6kkoqN5MOkzb+Q0KXy0Fk2zdzeH5np9+0sTv9KG5hZpka2u4sE3zU2E+1B8U" crossorigin="anonymous">
+
+    <!-- JavaScript Bundle with Popper -->
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/js/bootstrap.bundle.min.js" integrity="sha384-Ts4hxfn6p3G8RGSeJ1BfVqkkSQpfQ42DgcL/8+0xQfrJ2ApeIebmLGzPzIr0jAMq" crossorigin="anonymous"></script>
+
+
+    <!-- <script src="https://code.jquery.com/jquery-3.2.1.slim.min.js"></script> -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.12.9/umd/popper.min.js"></script>
+    <!-- <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js"></script> -->
+    <script src="https://code.jquery.com/jquery-3.6.4.min.js"></script>
+
+    {% bootstrap_css %}
+    {% bootstrap_javascript %}
+
+    <title>Crypto PRO | {% block title %}{% endblock title %}</title>
+</head>
+<style>
+    .not-visible{
+        display: none;
+    }
+</style>
+<body>
+    {%  include 'navbar.html' %}
+
+    {% if messages %}
+    <!-- <ul class="messages">
+        {% for message in messages %}
+        <li {% if message.tags %} class="{{message.tags}}" {% endif %}>{{message}}</li>
+        {% endfor %}
+    </ul> -->
+    {% endif %}
+
+    {% block content %}
+
+    {%  endblock content %}
+
+    {% block scripts %}
+    {% endblock scripts %}
+
+    {% include 'footer.html' %}
+    
+</body>
+</html>
