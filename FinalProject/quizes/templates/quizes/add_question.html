@@ -1,0 +1,44 @@
+{% extends 'main.html' %}
+
+{% block content %}
+
+
+
+<div class="container mt-5">
+    <div class="row justify-content-center">
+        <div class="col-md-6">
+            <h2 class="text-center mb-4">Add a new Quiz for the Module</h2>
+
+            <form method="post">
+                {% csrf_token %}
+                <!-- Question Form -->
+                <div class="form-group">
+                    <label for="id_question_text">Quiz:</label>
+                    {{ question_form.quiz }}
+                </div>
+                <div class="form-group">
+                    <label for="id_question_text">Question:</label>
+                    {{ question_form.text }}
+                </div>
+                <div class="form-group">
+                    <label for="id_lesson">Lesson:</label>
+                    {{ question_form.lesson }}
+                </div>
+                <!-- Answer Formset -->
+                {{ answer_formset.management_form }}
+                {% for form in answer_formset %}
+                <div class="form-group">
+                    <label for="id_form-{{ forloop.counter0 }}-text">Answer {{ forloop.counter }}:</label>
+                    {{ form.text }}
+                </div>
+                <div class="form-group">
+                    <label for="id_form-{{ forloop.counter0 }}-correct">Correct:</label>
+                    {{ form.correct }}
+                </div>
+                {% endfor %}
+                <button type="submit" class="btn btn-primary">Submit</button>
+            </form>
+        </div>
+    </div>
+</div>
+{% endblock %}

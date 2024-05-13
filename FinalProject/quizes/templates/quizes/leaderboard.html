@@ -1,0 +1,121 @@
+{% extends "main.html" %}
+{% load static %}
+
+{% block content %}
+<style>
+    /* Add this to your stylesheet or within a <style> block in your HTML file */
+    .podium {
+    display: flex;
+    justify-content: space-around;
+    margin-bottom: 20px;
+    }
+
+    .podium-item {
+    width: 30vh;
+    height: 30vh;
+    border-radius: 50%;
+    text-align: center;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    font-weight: bold;
+    }
+
+    .gold {
+    background-color: gold;
+    }
+
+    .silver {
+    background-color: silver;
+    }
+
+    .bronze {
+    background-color: #cd7f32;
+    }
+
+    .place {
+    font-size: 1.5em;
+    margin-bottom: 5px;
+    }
+
+    .leaderboard-list {
+    list-style-type: none;
+    padding: 0;
+    }
+
+    .leaderboard-item {
+    margin-bottom: 10px;
+    margin-left: 10px;
+    margin-right: 10 px;
+    background-color: #f2f2f2;
+    padding: 10px;
+    border-radius: 5px;
+    box-shadow: 0 0 5px rgba(0, 0, 0, 0.1);
+    }
+
+    .username {
+    font-size: 1.2em;
+    font-weight: bold;
+    }
+
+    .points {
+    font-size: 1.2em;
+    }
+
+    .profile-pic {
+    width: 100px;  /* Adjust the size as needed */
+    height: 100px;  /* Adjust the size as needed */
+    object-fit: cover;
+    border-radius: 50%;
+    margin-bottom: 10px;
+    }
+
+    .highlighted {
+        border: 10px solid #076aff;  /* Set your preferred highlight color */
+        border-radius: 50%;  /* To make the border circular */
+    }
+
+    .highlighted-li {
+      background-color: #076aff;
+    }
+
+</style>
+
+<h2 class="ml-4 mb-5 mt-2">Leaderboard</h2>
+<div class="podium">
+  <div class="podium-item  gold mb-5 {% if user.is_authenticated and leaderboard_data.0 and user == leaderboard_data.0.user %} highlighted {% endif %}">
+    <span class="place">1st</span>
+    {% if leaderboard_data.0 %}
+      <img src="{{ leaderboard_data.0.user.profile.profile_image.url }}"alt="User1" class="profile-pic img-fluid">
+      <span class="username">{{ leaderboard_data.0.user.profile.name }}</span>
+      <span class="points">{{ leaderboard_data.0.user.profile.points_of_progress }} XP</span>
+    {% endif %}
+  </div>
+  <div class="podium-item  silver mb-5 {% if user.is_authenticated and leaderboard_data.1 and user == leaderboard_data.1.user %} highlighted {% endif %}">
+    <span class="place">2nd</span>
+    {% if leaderboard_data.1 %}
+      <img src="{{ leaderboard_data.1.user.profile.profile_image.url }}"alt="User2" class="profile-pic img-fluid">
+      <span class="username">{{ leaderboard_data.1.user.profile.name }}</span>
+      <span class="points">{{ leaderboard_data.1.user.profile.points_of_progress }} XP</span>
+    {% endif %}
+  </div>
+  <div class="podium-item  bronze mb-5 {% if user.is_authenticated and leaderboard_data.2 and user == leaderboard_data.2.user %} highlighted {% endif %}">
+    <span class="place">3rd</span>
+    {% if leaderboard_data.2 %}
+      <img src="{{ leaderboard_data.2.user.profile.profile_image.url }}"alt="User3" class="profile-pic img-fluid">
+      <span class="username">{{ leaderboard_data.2.user.profile.name }}</span>
+      <span class="points">{{ leaderboard_data.2.user.profile.points_of_progress }} XP</span>
+    {% endif %}
+  </div>
+</div>
+<ol class="leaderboard-list">
+  {% for result in leaderboard_data|slice:"3:" %}
+    <li class="leaderboard-item ml-4 mr-4 {% if user.is_authenticated and user == result.user %} highlighted-li {% endif %}">
+      <span class="place">{{ forloop.counter0|add:"4" }}</span>
+      <span class="username">{{ result.user.profile.name }}</span>
+      <span class="points">{{ result.user.profile.points_of_progress }} XP</span>
+    </li>
+  {% endfor %}
+</ol>
+{% endblock content %}

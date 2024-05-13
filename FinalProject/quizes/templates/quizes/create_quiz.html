@@ -1,0 +1,46 @@
+{% extends 'main.html' %}
+
+{% block content %}
+<div class="container mt-5">
+    <div class="row justify-content-center">
+        <div class="col-md-6">
+            <h2 class="text-center mb-4">Add a new Quiz for the Module</h2>
+
+            <form action="" method="POST" enctype="multipart/form-data">
+                {% csrf_token %}
+                <div class="form-group">
+                    {{ quiz_form.project.label_tag }}
+                    {{ quiz_form.project }}
+                </div>
+                <div class="form-group">
+                    {{ quiz_form.name.label_tag }}
+                    {{ quiz_form.name}}
+                </div>
+                <div class="form-group">
+                    {{ quiz_form.topic.label_tag }}
+                    {{ quiz_form.topic }}
+                </div>
+                <div class="form-group">
+                    {{ quiz_form.number_of_questions.label_tag }}
+                    {{ quiz_form.number_of_questions }}
+                </div>
+                <div class="form-group">
+                    {{ quiz_form.time.label_tag }}
+                    {{ quiz_form.time }}
+                </div>
+                <div class="form-group">
+                    {{ quiz_form.required_score_to_pass.label_tag }}
+                    {{ quiz_form.required_score_to_pass }}
+                </div>
+                <div class="form-group">
+                    {{ quiz_form.difficulty.label_tag }}
+                    {{ quiz_form.difficulty }}
+                </div>
+                <button type="submit" class="btn btn-primary btn-block mb-2">Submit</button>
+            </form>
+        </div>
+    </div>
+</div>
+
+{% endblock %}
+
